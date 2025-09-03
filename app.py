@@ -16,6 +16,9 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__, static_folder='static', static_url_path='', template_folder='templates')
 app.secret_key = 'supersecret123'
 
+app.config['SESSION_COOKIE_SECURE'] = True   # only send cookie via HTTPS
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' 
+
 db_config = {
     'user': 'user_deb2e6c5',
     'password': '8ca5809f66c97bceb7967901c84296e5',
@@ -70,7 +73,7 @@ def login():
                 host='db.pxxl.pro',
                 user='user_deb2e6c5',
                 password='8ca5809f66c97bceb7967901c84296e5',
-                database='job_portal'
+                database='db_d728de84'
             )
             cursor = db.cursor()
 
@@ -138,7 +141,7 @@ def signup():
                 host='db.pxxl.pro',
                 user='user_deb2e6c5',
                 password='8ca5809f66c97bceb7967901c84296e5',
-                database='job_portal'
+                database='db_d728de84'
             )
             cursor = db.cursor()
 
@@ -241,7 +244,7 @@ def employer_interview():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -295,7 +298,7 @@ def employer_post_job():
                 host='db.pxxl.pro',
                 user='user_deb2e6c5',
                 password='8ca5809f66c97bceb7967901c84296e5',
-                database='job_portal'
+                database='db_d728de84'
             )
             cursor = db.cursor()
 
@@ -324,7 +327,7 @@ def employer_post_job():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -366,7 +369,7 @@ def edit_job(job_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor()
 
@@ -404,7 +407,7 @@ def delete_job(job_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor()
 
@@ -504,7 +507,7 @@ def employer_view_applicants():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -540,7 +543,7 @@ def view_applicants(job_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -585,7 +588,7 @@ def invite_applicant(application_id, job_seeker_id, job_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor()
 
@@ -624,7 +627,7 @@ def reject_applicant(applicant_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor()
 
@@ -656,7 +659,7 @@ def employer_approved_applications():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -777,7 +780,7 @@ def reschedule_interview(application_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor()
 
@@ -805,7 +808,7 @@ def reschedule_interview(application_id):
 
 @app.route('/employer/cancel/<int:application_id>', methods=['POST'])
 def cancel_interview(application_id):
-    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
+    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
     cursor = db.cursor()
     cursor.execute("UPDATE applications SET status = 'cancelled' WHERE id = %s", (application_id,))
     db.commit()
@@ -816,7 +819,7 @@ def cancel_interview(application_id):
 
 @app.route('/employer/accept/<int:application_id>', methods=['POST'])
 def accept_candidate(application_id):
-    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
+    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
     cursor = db.cursor()
     cursor.execute("UPDATE applications SET status = 'accepted' WHERE id = %s", (application_id,))
     db.commit()
@@ -863,7 +866,7 @@ def user_index():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -932,7 +935,7 @@ def user_notifications():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -1012,7 +1015,7 @@ def user_profile():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -1048,7 +1051,7 @@ def update_profile_info():
     location = request.form.get('location')
 
     try:
-        db = mysql.connector.connect(host="db.pxxl.pro", user="user_deb2e6c5", password="8ca5809f66c97bceb7967901c84296e5", database="job_portal")
+        db = mysql.connector.connect(host="db.pxxl.pro", user="user_deb2e6c5", password="8ca5809f66c97bceb7967901c84296e5", database="db_d728de84")
         cursor = db.cursor()
         cursor.execute("""
             UPDATE users 
@@ -1073,7 +1076,7 @@ def update_preferences():
     preference = request.form.get('preference')
 
     try:
-        db = mysql.connector.connect(host="db.pxxl.pro", user="user_deb2e6c5", password="8ca5809f66c97bceb7967901c84296e5", database="job_portal")
+        db = mysql.connector.connect(host="db.pxxl.pro", user="user_deb2e6c5", password="8ca5809f66c97bceb7967901c84296e5", database="db_d728de84")
         cursor = db.cursor()
         cursor.execute("""
             UPDATE users 
@@ -1159,7 +1162,7 @@ def update_profile_picture():
             host="db.pxxl.pro",
             user="user_deb2e6c5",
             password="8ca5809f66c97bceb7967901c84296e5",
-            database="job_portal"
+            database="db_d728de84"
         )
         cursor = db.cursor()
 
@@ -1224,7 +1227,7 @@ def start_job_search():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -1291,7 +1294,7 @@ def user_saved_jobs():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -1332,7 +1335,7 @@ def save_job():
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor()
 
@@ -1378,7 +1381,7 @@ def save_job_direct():
         return redirect(request.referrer or url_for('user_dashboard'))
 
     try:
-        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
+        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
         cursor = db.cursor()
 
         # Check if already saved
@@ -1410,7 +1413,7 @@ def apply_job():
         return redirect(request.referrer or url_for('user_dashboard'))
 
     try:
-        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
+        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
         cursor = db.cursor()
 
         # Check if already applied
@@ -1440,7 +1443,7 @@ def job_details(job_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor(dictionary=True)
 
@@ -1477,7 +1480,7 @@ def remove_saved_job(job_id):
             host='db.pxxl.pro',
             user='user_deb2e6c5',
             password='8ca5809f66c97bceb7967901c84296e5',
-            database='job_portal'
+            database='db_d728de84'
         )
         cursor = db.cursor()
 
