@@ -1,12 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 
-# Configure your MySQL credentials
-# config = {
-#     'user': 'root',
-#     'password': '',  # Set this if you changed your root password
-#     'host': 'localhost',
-# }
+
 
 # # Database and table names
 # DB_NAME = 'job_portal'

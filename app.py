@@ -65,9 +65,9 @@ def login():
 
         try:
             db = mysql.connector.connect(
-                host='localhost',
-                user='root',
-                password='',
+                host='db.pxxl.pro',
+                user='user_deb2e6c5',
+                password='8ca5809f66c97bceb7967901c84296e5',
                 database='job_portal'
             )
             cursor = db.cursor()
@@ -133,9 +133,9 @@ def signup():
 
         try:
             db = mysql.connector.connect(
-                host='localhost',
-                user='root',
-                password='',
+                host='db.pxxl.pro',
+                user='user_deb2e6c5',
+                password='8ca5809f66c97bceb7967901c84296e5',
                 database='job_portal'
             )
             cursor = db.cursor()
@@ -236,9 +236,9 @@ def employer_index():
 def employer_interview():
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -290,9 +290,9 @@ def employer_post_job():
 
         try:
             db = mysql.connector.connect(
-                host='localhost',
-                user='root',
-                password='',
+                host='db.pxxl.pro',
+                user='user_deb2e6c5',
+                password='8ca5809f66c97bceb7967901c84296e5',
                 database='job_portal'
             )
             cursor = db.cursor()
@@ -319,9 +319,9 @@ def employer_post_job():
     # Fetch job listings to show below the form
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -361,9 +361,9 @@ def edit_job(job_id):
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor()
@@ -399,9 +399,9 @@ def edit_job(job_id):
 def delete_job(job_id):
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor()
@@ -499,9 +499,9 @@ def update_interview_scheduled_status():
 def employer_view_applicants():
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -535,9 +535,9 @@ def employer_view_applicants():
 def view_applicants(job_id):
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -580,9 +580,9 @@ def invite_applicant(application_id, job_seeker_id, job_id):
         meeting_link = request.form.get("meeting_link")
 
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor()
@@ -619,9 +619,9 @@ def invite_applicant(application_id, job_seeker_id, job_id):
 def reject_applicant(applicant_id):
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor()
@@ -651,9 +651,9 @@ def employer_approved_applications():
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -772,9 +772,9 @@ def reschedule_interview(application_id):
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor()
@@ -803,7 +803,7 @@ def reschedule_interview(application_id):
 
 @app.route('/employer/cancel/<int:application_id>', methods=['POST'])
 def cancel_interview(application_id):
-    db = mysql.connector.connect(host='localhost', user='root', password='', database='job_portal')
+    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
     cursor = db.cursor()
     cursor.execute("UPDATE applications SET status = 'cancelled' WHERE id = %s", (application_id,))
     db.commit()
@@ -814,7 +814,7 @@ def cancel_interview(application_id):
 
 @app.route('/employer/accept/<int:application_id>', methods=['POST'])
 def accept_candidate(application_id):
-    db = mysql.connector.connect(host='localhost', user='root', password='', database='job_portal')
+    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
     cursor = db.cursor()
     cursor.execute("UPDATE applications SET status = 'accepted' WHERE id = %s", (application_id,))
     db.commit()
@@ -858,9 +858,9 @@ def user_index():
     
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -927,9 +927,9 @@ def user_notifications():
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -1002,9 +1002,9 @@ def user_profile():
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -1041,7 +1041,7 @@ def update_profile_info():
     location = request.form.get('location')
 
     try:
-        db = mysql.connector.connect(host="localhost", user="root", password="", database="job_portal")
+        db = mysql.connector.connect(host="db.pxxl.pro", user="user_deb2e6c5", password="8ca5809f66c97bceb7967901c84296e5", database="job_portal")
         cursor = db.cursor()
         cursor.execute("""
             UPDATE users 
@@ -1066,7 +1066,7 @@ def update_preferences():
     preference = request.form.get('preference')
 
     try:
-        db = mysql.connector.connect(host="localhost", user="root", password="", database="job_portal")
+        db = mysql.connector.connect(host="db.pxxl.pro", user="user_deb2e6c5", password="8ca5809f66c97bceb7967901c84296e5", database="job_portal")
         cursor = db.cursor()
         cursor.execute("""
             UPDATE users 
@@ -1149,9 +1149,9 @@ def update_profile_picture():
 
         # ✅ Save only filename in DB (not full path)
         db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
+            host="db.pxxl.pro",
+            user="user_deb2e6c5",
+            password="8ca5809f66c97bceb7967901c84296e5",
             database="job_portal"
         )
         cursor = db.cursor()
@@ -1214,9 +1214,9 @@ def start_job_search():
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -1281,9 +1281,9 @@ def user_saved_jobs():
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -1322,9 +1322,9 @@ def save_job():
 
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor()
@@ -1371,7 +1371,7 @@ def save_job_direct():
         return redirect(request.referrer or url_for('user_dashboard'))
 
     try:
-        db = mysql.connector.connect(host='localhost', user='root', password='', database='job_portal')
+        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
         cursor = db.cursor()
 
         # Check if already saved
@@ -1403,7 +1403,7 @@ def apply_job():
         return redirect(request.referrer or url_for('user_dashboard'))
 
     try:
-        db = mysql.connector.connect(host='localhost', user='root', password='', database='job_portal')
+        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='job_portal')
         cursor = db.cursor()
 
         # Check if already applied
@@ -1430,9 +1430,9 @@ def apply_job():
 def job_details(job_id):
     try:
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor(dictionary=True)
@@ -1467,9 +1467,9 @@ def remove_saved_job(job_id):
             return redirect(url_for('login'))
 
         db = mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='',
+            host='db.pxxl.pro',
+            user='user_deb2e6c5',
+            password='8ca5809f66c97bceb7967901c84296e5',
             database='job_portal'
         )
         cursor = db.cursor()
