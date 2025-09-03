@@ -1,0 +1,50 @@
+{% include 'user/header.html'%}
+
+    
+
+    <!-- Page Content -->
+    <div class="content notifications-page mt-5 mb-5">
+        <div class="container">
+            <h1 class="my-4 text-center" style="color: #345C85;">📢 Notifications</h1>
+            <p class="lead text-center text-muted mb-5">Manage your job alerts, interview invites, and application updates.</p>
+
+            <div class="bg-white shadow rounded p-4">
+                <h4 class="mb-4" style="color: #329F82;">Your Notifications</h4>
+                {% if notifications %}
+                    <ul class="list-group list-group-flush">
+                        {% for note in notifications %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-bottom py-3" style="background-color: #F0FFFC;">
+                                <div class="d-flex align-items-center gap-3">
+                                    {% if note.status == 'pending' %}
+                                        <i class="fas fa-hourglass-half text-warning fs-4"></i>
+                                        <span>You applied for <strong>{{ note.job_title }}</strong>. <span class="text-muted">Awaiting review.</span></span>
+                                    {% elif note.status == 'invited' %}
+                                        <i class="fas fa-handshake text-success fs-4"></i>
+                                        <span>🎉 Interview invite for <strong>{{ note.job_title }}</strong>!</span>
+                                    {% elif note.status == 'rejected' %}
+                                        <i class="fas fa-times-circle text-danger fs-4"></i>
+                                        <span>❌ Application for <strong>{{ note.job_title }}</strong> was rejected.</span>
+                                    {% else %}
+                                        <i class="fas fa-info-circle text-primary fs-4"></i>
+                                        <span>Update for <strong>{{ note.job_title }}</strong>: <span class="text-muted">{{ note.status }}</span></span>
+                                    {% endif %}
+                                </div>
+                                <span class="badge bg-secondary rounded-pill px-3 py-2">{{ note.applied_at.strftime('%Y-%m-%d') }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="alert alert-info text-center shadow-sm">
+                        <i class="fas fa-bell-slash fs-4 text-muted"></i>
+                        <p class="mt-2 mb-0">You have no notifications yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    
+    
+
+
+    {% include 'user/footer.html'%}

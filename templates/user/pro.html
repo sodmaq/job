@@ -1,0 +1,64 @@
+{% include 'user/header.html'%}
+
+<div class="content profile-page mt-5">
+    <div class="container">
+        <h1 class="my-4 text-center text-primary">Profile Settings</h1>
+        <p class="lead text-center mb-5">Update your personal information, preferences, and account settings.</p>
+
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="card shadow-sm mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Personal Information</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="first-name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="first-name" value="{{ user.name if user else '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" value="{{ user.email if user else '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" value="{{ user.phone if user and user.phone else '' }}">
+                            </div>
+                            <button type="submit" class="btn btn-success mt-3">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Job Preferences</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="job-type" class="form-label">Preferred Job Type</label>
+                                <select class="form-select" id="job-type">
+                                    <option {% if user and user.job_type == 'Full-Time' %}selected{% endif %}>Full-Time</option>
+                                    <option {% if user and user.job_type == 'Part-Time' %}selected{% endif %}>Part-Time</option>
+                                    <option {% if user and user.job_type == 'Freelance' %}selected{% endif %}>Freelance</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Preferred Location</label>
+                                <input type="text" class="form-control" id="location" value="{{ user.location if user and user.location else '' }}">
+                            </div>
+                            <button type="submit" class="btn btn-success mt-3">Save Preferences</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="col-lg-4 col-md-12">
+                <div class="text-center mb-5">
+                    <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="Profile Picture" class="rounded-circle img-fluid" style="width: 150px; height: 150px;">
+                    <button class="btn btn-outline-success mt-3">Change Profile Picture</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'user/footer.html'%}

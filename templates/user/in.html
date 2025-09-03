@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Powered Job Search - Dashboard</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="css/sweetalert.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Favicon for the site -->
+    <link rel="icon" href="images/logo.jpg">
+</head>
+<body class="bg-light">
+
+    <!-- Navbar (Same as before) -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #345C85;">
+        <div class="container">
+            <!-- Sidebar Toggle Button (if needed) -->
+            <button class="btn btn-primary d-md-none" id="sidebarToggle" style="position: absolute; top: 10px; left: 10px;">
+                <i class="fas fa-bars"></i> Menu
+            </button>
+            <a class="navbar-brand" href="index.html">
+                <img src="images/logo.jpg" alt="Logo" width="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="saved-jobs.html">Saved Jobs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.html">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+
+    <!-- Main Content -->
+    <section class="dashboard py-5" style="background-color: #F0FFFC;">
+        <div class="container">
+            <div class="row">
+                <!-- Dashboard Sidebar (Optional) -->
+                <div class="col-md-3 mb-4">
+                    <div class="list-group">
+                        <a href="dashboard.html" class="list-group-item list-group-item-action active" style="background-color: #345C85; color: white;">Overview</a>
+                        <a href="recommended-jobs.html" class="list-group-item list-group-item-action">Recommended Jobs</a>
+                        <a href="upload-resume.html" class="list-group-item list-group-item-action">Upload Resume</a>
+                        <a href="saved-jobs.html" class="list-group-item list-group-item-action">Saved Jobs</a>
+                    </div>
+                </div>
+
+                <!-- Main Dashboard Content -->
+                <div class="col-md-9">
+                    <div class="row">
+                        <!-- Job Recommendations -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card" style="background-color: #329F82; color: white;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Top Job Recommendations</h5>
+                                    <p class="card-text">Explore the most relevant jobs for you based on your profile and preferences.</p>
+                                    <a href="recommended-jobs.html" class="btn btn-light">View Recommendations</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saved Jobs -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card" style="background-color: #345C85; color: white;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Saved Jobs</h5>
+                                    <p class="card-text">Review the jobs you've saved and apply whenever you're ready.</p>
+                                    <a href="saved-jobs.html" class="btn btn-light">View Saved Jobs</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Resume Upload -->
+                        <div class="col-md-4 mb-4">
+                            <div class="card" style="background-color: #121526; color: white;">
+                                <div class="card-body">
+                                    <h5 class="card-title">Recent Resume Upload</h5>
+                                    <p class="card-text">Check out your latest resume upload, or upload a new one for better job matching.</p>
+                                    <a href="upload-resume.html" class="btn btn-light">Upload Resume</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Matching Summary -->
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            <h4 class="text-center">Your Job Matching Summary</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Job Title</th>
+                                            <th>Company</th>
+                                            <th>Match Score</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Software Engineer</td>
+                                            <td>ABC Corp</td>
+                                            <td>85%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success">Apply</button>
+                                                <button class="btn btn-sm btn-warning">Save</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Data Scientist</td>
+                                            <td>XYZ Ltd.</td>
+                                            <td>92%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success">Apply</button>
+                                                <button class="btn btn-sm btn-warning">Save</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Same as before) -->
+    <footer class="py-4" style="background-color: #121526; color: white;">
+        <div class="container text-center">
+            <p>&copy; 2025 Job Search Platform. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/all.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- Initialize AOS for animations -->
+    <script>
+        AOS.init();
+    </script>
+
+</body>
+</html>

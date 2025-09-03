@@ -1,0 +1,35 @@
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='user/js/all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='user/js/aos.js') }}"></script>
+    <script src="{{ url_for('static', filename='user/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='user/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='user/js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='user/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='user/js/script.js') }}"></script>
+     <script src="{{ url_for('static', filename='user/js/sweetalert2.min.js') }}"></script>
+
+    <script>
+        AOS.init();
+    </script>
+
+
+<script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                Swal.fire({
+                    icon: '{{ category }}', // success, error, warning, info
+                    title: '{{ message }}',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</script>
+
+</body>
+</html>

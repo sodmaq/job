@@ -1,0 +1,61 @@
+{%include 'head.html'%}
+
+    <section class="services-hero d-flex align-items-center">
+        <div class="container text-center">
+          <h1 class="display-4 fw-bold text-light">Our Services</h1>
+          <p class="lead text-light">What we offer to power your career journey</p>
+        </div>
+      </section>
+      
+
+    <section id="services" class="services-section py-5">
+        <div class="container">
+            <!-- Service 1 -->
+            <div class="row align-items-center mb-5 service-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-md-6">
+                    <img src="{{url_for('static',filename ='images/resume-analysis.jpg')}}" alt="Resume Analysis" class="img-fluid rounded-4 shadow">
+                </div>
+                <div class="col-md-6">
+                    <h3 class="service-title">AI-Powered Resume Analysis</h3>
+                    <p class="service-text">
+                        Upload your resume and let our intelligent system do the rest. Using Natural Language Processing (NLP) and machine learning techniques,
+                        we deeply analyze your skills, education, experience, and achievements. Our system identifies strengths, keyword gaps, and aligns your
+                        profile with in-demand job roles — making sure your resume stands out to recruiters and is perfectly tailored for relevant job openings.
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Service 2 -->
+            <div class="row align-items-center mb-5 service-item flex-md-row-reverse" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-md-6">
+                    <img src="{{url_for('static', filename= 'images/job-matching.jpg')}}" alt="Job Matching" class="img-fluid rounded-4 shadow">
+                </div>
+                <div class="col-md-6">
+                    <h3 class="service-title">Personalized Job Matching</h3>
+                    <p class="service-text">
+                        Say goodbye to endless scrolling through irrelevant listings. Our platform learns your interests, preferences, and past applications,
+                        and matches you with jobs that truly fit. By combining content-based and collaborative filtering — including user behavior patterns and
+                        semantic profile-job matching — we ensure you're only shown opportunities that align with your goals, experience level, and ideal career path.
+                    </p>
+                </div>
+            </div>
+    
+            <!-- Service 3 -->
+            <div class="row align-items-center mb-5 service-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="col-md-6">
+                    <img src="{{url_for('static', filename= 'images/saved-jobs.jpg')}}" alt="Saved Jobs" class="img-fluid rounded-4 shadow">
+                </div>
+                <div class="col-md-6">
+                    <h3 class="service-title">Save and Track Jobs</h3>
+                    <p class="service-text">
+                        Found a job you love but want to apply later? Just save it with a single click. Our platform allows you to bookmark listings, receive
+                        timely reminders, and track your job applications all in one place. Stay organized with application statuses, deadlines, and updates —
+                        whether you're applying to one job or ten. Everything is synced across devices so you never miss a beat.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+{%include 'footer.html'%}

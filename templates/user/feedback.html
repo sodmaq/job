@@ -1,0 +1,59 @@
+{% include 'user/header.html'%}
+
+    
+
+    <!-- Page Content -->
+    <div class="content feedback-page mt-5">
+        <div class="container">
+            <h1 class="my-4 text-center text-primary">Feedback</h1>
+            <p class="lead text-center mb-5">Help us improve by providing your feedback on job recommendations and platform features.</p>
+    
+            <!-- Feedback Form Row -->
+            <div class="row">
+                <!-- Left Column: Job Recommendations Feedback -->
+                <div class="col-lg-8 col-md-12 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Job Recommendations Feedback</h5>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="recommendation-feedback" class="form-label">How relevant were the job recommendations?</label>
+                                    <textarea class="form-control" id="recommendation-feedback" rows="4" placeholder="Provide your feedback here..."></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="rating" class="form-label">Rate your experience</label>
+                                    <select class="form-select" id="rating">
+                                        <option selected>5 - Excellent</option>
+                                        <option>4 - Good</option>
+                                        <option>3 - Average</option>
+                                        <option>2 - Poor</option>
+                                        <option>1 - Terrible</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-success mt-3">Submit Feedback</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right Column: Platform Features Feedback -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="mt-5">
+                        <h5>Platform Features Feedback</h5>
+                        <form>
+                            <div class="mb-3">
+                                <label for="feature-feedback" class="form-label">What feature would you like to see next?</label>
+                                <textarea class="form-control" id="feature-feedback" rows="3" placeholder="Share your feature suggestions..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success mt-3">Submit Feature Suggestion</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+    </div>
+    
+    
+
+    {% include 'user/footer.html'%}

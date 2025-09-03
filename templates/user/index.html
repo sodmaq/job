@@ -1,0 +1,79 @@
+{% include 'user/header.html'%}
+    
+
+    <!-- Page Content -->
+    <div class="content">
+        <div class="container">
+            <h1 class="my-4">Welcome Back!</h1>
+            <p class="lead">Here’s a quick overview of your job search activity and AI-powered recommendations tailored to your profile.</p>
+
+            <!-- Summary Cards -->
+            <div class="row g-2 mb-4">
+                <div class="col-md-4">
+                    <div class="card shadow-sm text-center p-3">
+                        <h5 class="text-primary">Saved Jobs</h5>
+                        <h3 class="fw-bold">{{ saved_count }}</h3>
+                        <p class="text-muted">Jobs you’ve saved to apply later</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm text-center p-3">
+                        <h5 class="text-success">New Matches</h5>
+                        <h3 class="fw-bold">{{ recommended_count }}</h3>
+                        <p class="text-muted">Fresh recommendations based on your latest resume</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm text-center p-3">
+                        <h5 class="text-info">Applications</h5>
+                        <h3 class="fw-bold">{{ applied_count }}</h3>
+                        <p class="text-muted">Jobs you’ve applied to</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Recommended Jobs Section -->
+            <section id="job-recommendations">
+                <h3 class="mb-3">Top AI-Recommended Jobs for You</h3>
+                <p class="text-muted">Generated based on your skills, preferences, and recent activity.</p>
+                <div class="row g-2">
+                    {% for job in recommended_jobs %}
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ job.title }}</h5>
+                                <p class="card-text">Location: {{ job.location }} | Match: <strong>{{ 80 + loop.index }}%</strong></p>
+                                <p class="text-muted small">{{ job.description[:100] }}...</p>
+                                <a href="/user/job/{{ job.id }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+
+            <!-- Resume Reminder -->
+            <div class="alert alert-warning mt-5" role="alert">
+                <strong>Reminder:</strong> Haven’t uploaded your resume recently? <a href="upload-resume.html" class="alert-link">Upload or update it</a> to get better job matches!
+            </div>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <script>
+        {% for category, message in messages %}
+          Swal.fire({
+            icon: '{{ category }}',  // 'success', 'error', etc.
+            title: '{{ "Success" if category == "success" else "Oops!" }}',
+            text: '{{ message }}',
+            confirmButtonColor: '#3085d6'
+          });
+        {% endfor %}
+      </script>
+    {% endif %}
+  {% endwith %}
+  
+
+{%include 'user/footer.html'%}

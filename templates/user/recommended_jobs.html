@@ -1,0 +1,71 @@
+{% include 'user/header.html'%}
+
+    
+
+
+    <!-- Page Content -->
+    <div class="content">
+        <div class="container">
+            <h1 style="margin-top: 70px;">Recommended Jobs for You</h1>
+            <p class="lead mb-4">Based on your resume and preferences, here are job opportunities tailored for you.</p>
+
+
+{% block content %}
+
+<div class="container mt-5">
+    <h3 class="mb-4 text-center">Recommended Jobs for You</h3>
+
+    <!-- Job Cards -->
+    <div class="row g-4">
+        {% if jobs %}
+            {% for job in jobs %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card job-card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <p class="card-text text-muted mb-1">Company: {{ job.company }}</p>
+                        <p class="card-text text-muted">Location: {{ job.location }}</p>
+                        <span class="badge bg-success">{{ job.match }} Match</span>
+                        <p class="mt-3 small">{{ job.description[:100] }}...</p>
+
+                        <div class="mt-auto d-flex justify-content-between gap-1">
+                            <!-- View Job -->
+                            <a href="{{ url_for('job_details', job_id=job.id) }}" class="btn btn-primary btn-sm w-100">View</a>
+
+                            <!-- Save Job -->
+                            <form method="POST" action="{{ url_for('save_job_direct') }}" class="w-100">
+                                <input type="hidden" name="job_id" value="{{ job.id }}">
+                                <button type="submit" class="btn btn-outline-secondary btn-sm w-100">Save</button>
+                            </form>
+
+                            <!-- Apply Job -->
+                            <form method="POST" action="{{ url_for('apply_job') }}" class="w-100">
+                                <input type="hidden" name="job_id" value="{{ job.id }}">
+                                <button type="submit" class="btn btn-success btn-sm w-100">Apply</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-warning text-center" role="alert">
+                    No matching jobs found based on your skills.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+        </div>
+    </div>
+
+
+
+
+
+    {% include 'user/footer.html'%}

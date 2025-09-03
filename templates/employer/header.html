@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Powered Job Search - Dashboard{% endblock %}</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='employer/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='employer/css/aos.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='employer/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='employer/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='employer/css/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='employer/css/styles.css') }}">
+    <script src="{{ url_for('static', filename='employer/js/sweetalert2.all.min.js') }}"></script>
+    
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='employer/images/logo.jpg') }}">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-body">
+            <ul class="list-unstyled">
+                 <br><br><br>
+                <li><a href="{{ url_for('employer_index') }}"><i class="fas fa-tachometer-alt me-3"></i> Dashboard</a></li>
+                <li>
+                    <a href="{{ url_for('employer_approved_applications') }}">
+                        <i class="fas fa-check-circle me-3"></i> Approved Applications
+                    </a>
+                </li>
+                <li><a href="{{ url_for('employer_interview') }}"><i class="fas fa-users me-3"></i> Interview</a></li>
+                <li><a href="{{ url_for('employer_post_job') }}"><i class="fas fa-building me-3"></i> Post a Job</a></li>
+                <li><a href="{{ url_for('employer_view_applicants') }}"><i class="fas fa-upload me-3"></i> View Applicants</a></li>
+                <li><a href="{{ url_for('employer_scheduled_interviews') }}"><i class="fas fa-calendar-alt me-3"></i> Scheduled Interviews</a></li>
+                <li><a href="{{ url_for('employer_logout') }}"><i class="fas fa-sign-out-alt me-3"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="container-fluid">
+            <a class="navbar-brand" style="margin-left: 50px;" href="#">
+                {{ session['employer_name'] if session.get('employer_name') else 'Guest' }}
+            </a>
+            <button class="navbar-toggler custom-toggler text-white" type="button" id="sidebarToggle" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Saved Jobs</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>

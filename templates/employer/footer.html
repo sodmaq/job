@@ -1,0 +1,35 @@
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='employer/js/all.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='employer/js/aos.js') }}"></script>
+    <script src="{{ url_for('static', filename='employer/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='employer/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='employer/js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='employer/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='employer/js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='employer/js/sweetalert2.min.js') }}"></script>
+
+    <script>
+        AOS.init();
+    </script>
+
+<!-- Flash Messages (SweetAlert) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        {% for category, message in messages %}
+          Swal.fire({
+            title: "{{ 'Success!' if category == 'success' else 'Oops!' if category == 'error' else 'Notice' }}",
+            text: "{{ message }}",
+            icon: "{{ category }}",
+            confirmButtonColor: '#3085d6'
+          });
+        {% endfor %}
+      });
+    </script>
+  {% endif %}
+{% endwith %}
+
+    
+</body>
+</html>

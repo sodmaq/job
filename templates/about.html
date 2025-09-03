@@ -1,0 +1,118 @@
+{% include 'head.html' %}
+
+
+    <!-- About Page Start -->
+    <section id="about-hero" style="padding-top: 100px;" class="about-hero-section">
+        <div class="container text-center text-white">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 class="about-hero-title">About Us</h2>
+                    <p class="about-hero-description">We leverage AI technology to make job searching smarter, more personalized, and more efficient for job seekers and employers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission" class="mission-section py-5" data-aos="fade-up">
+        <div class="container text-center">
+            <h2 class="section-title">Our Mission</h2>
+            <p class="lead">Our mission is to empower job seekers by providing AI-driven job recommendations, career development insights, and tools to streamline the job search process.</p>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section id="values" class="values-section py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title text-center">Our Values</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="values-title">Innovation</h4>
+                    <p class="values-text">We continuously innovate to bring the latest in AI and machine learning to the recruitment process, ensuring the best matches for both job seekers and employers.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="values-title">Integrity</h4>
+                    <p class="values-text">We uphold the highest standards of honesty and transparency, ensuring that our platform serves the needs of both job seekers and employers ethically.</p>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="values-title">Collaboration</h4>
+                    <p class="values-text">We believe in the power of collaboration — between job seekers, employers, and our technology — to achieve the best outcomes for everyone involved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section id="contact-form" class="contact-form-section py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title text-center">Contact Us</h2>
+            <p class="lead text-center mb-4">Have questions or need assistance? Reach out to us by filling out the form below, and we’ll get back to you as soon as possible.</p>
+            <div class="row justify-content-center">
+                <!-- Contact Form -->
+                <div class="col-md-6 mb-4">
+                    <form action="process_form.php" method="POST" id="contactForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email address">
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" name="subject" required placeholder="Enter the subject of your message">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Your Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5" required placeholder="Write your message here"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="col-md-6 mb-4">
+                    <div class="text-center">
+                        <h3 class="section-title">Get in Touch</h3>
+                        <p class="lead">Have any questions or need assistance? Reach out to our support team for help or feedback. We're here to assist you in every step of your job search journey.</p>
+                        <p><strong>Email:</strong> support@jobplatform.com</p>
+                        <p><strong>Phone:</strong> +123 456 7890</p>
+                        <p><strong>Address:</strong> 123 Job Street, City, Country</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section py-5" data-aos="fade-up">
+        <div class="container">
+            <h2 class="section-title text-center">Frequently Asked Questions</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="faq-question">How do I upload my resume?</h5>
+                    <p class="faq-answer">Simply click the 'Upload Resume' button from the dashboard, select your file, and our system will analyze your resume to help match you with relevant job listings.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="faq-question">How accurate are the job recommendations?</h5>
+                    <p class="faq-answer">Our AI uses advanced machine learning models to match your profile with jobs. The more you interact with the platform, the more accurate the recommendations will become.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="faq-question">Can I save jobs for later?</h5>
+                    <p class="faq-answer">Yes, you can save jobs and apply at a later time. Just click the 'Save' button on the job listing page.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="faq-question">How can I track my job applications?</h5>
+                    <p class="faq-answer">You can track your job applications through your dashboard, which will show the status and updates of all the jobs you've applied to.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% include 'footer.html' %}
+

@@ -1,0 +1,94 @@
+{% include 'head.html' %}
+
+    <!-- Hero Section -->
+    <section class="hero-section d-flex align-items-center">
+        <div class="container-fluid">
+          <div class="row w-100">
+            <!-- Left Content -->
+            <div class="col-lg-6 hero-content text-light p-5">
+              <h1 class="display-4 fw-bold">Find Your Perfect Job</h1>
+              <p class="lead">Upload your resume and get AI-powered job recommendations tailored just for you.</p>
+              <a href="{{url_for('signup')}}" class="btn btn-signup mt-3">Get Started</a>
+            </div>
+            <!-- Right side stays empty to reveal background image -->
+            <div class="col-lg-6 d-none d-lg-block"></div>
+          </div>
+        </div>
+    </section>
+      
+
+    <!-- About Section -->
+    <section id="about" class="about-section py-5">
+        <div class="container">
+          <div class="row align-items-center">
+            <!-- Image -->
+            <div class="col-lg-6 mb-4 mb-lg-0">
+              <img src="{{url_for('static', filename = 'images/about.jpg')}}" alt="About us" class="img-fluid rounded-4 shadow">
+            </div>
+            <!-- Text -->
+            <div class="col-lg-6 text-content">
+              <h2 class="section-title mb-3">About Our Platform</h2>
+              <p class="mb-3">
+                Our AI-powered job search platform is designed to revolutionize the way you find career opportunities. 
+                By analyzing your resume using advanced NLP techniques, we match you with the most relevant job listings 
+                tailored to your skills, experience, and interests.
+              </p>
+              <p>
+                Whether you're a fresh graduate or a seasoned professional, our system ensures personalized job recommendations, 
+                smarter job tracking, and a seamless application process — all in one place.
+              </p>
+            </div>
+          </div>
+        </div>
+    </section>
+      
+
+    <!-- Features Section -->
+    <section class="features-section bg-light py-5" id="features">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <i class="fa fa-rocket fa-3x mb-3"></i>
+                    <h4>AI-Powered Recommendations</h4>
+                    <p>Get personalized job recommendations based on your resume and career preferences.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fa fa-user-check fa-3x mb-3"></i>
+                    <h4>Seamless Application Process</h4>
+                    <p>Apply directly to the jobs that match your profile with just one click.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="fa fa-briefcase fa-3x mb-3"></i>
+                    <h4>Find Your Perfect Job</h4>
+                    <p>Explore jobs that align with your skills, experience, and salary expectations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action (CTA) -->
+    <section class="cta-section py-5" id="cta">
+        <div class="container text-center">
+            <h2>Ready to Find Your Next Job?</h2>
+            <p class="lead">Sign up and start getting job recommendations tailored just for you!</p>
+            <a href="signup.html" class="btn btn-primary btn-lg">Get Started Now</a>
+        </div>
+    </section>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <script>
+          {% for category, message in messages %}
+            Swal.fire({
+              icon: '{{ category }}',
+              title: '{{ "Success" if category == "success" else "Notice" }}',
+              text: '{{ message }}',
+              confirmButtonColor: '#3085d6'
+            });
+          {% endfor %}
+        </script>
+      {% endif %}
+    {% endwith %}
+
+
+    {% include 'footer.html' %}

@@ -1,0 +1,55 @@
+{% include 'employer/header.html'%}
+
+<!-- Page Content -->
+<div class="content notifications-page mt-5 mb-5">
+    <div class="container mt-5">
+        <h2 class="mb-4">Scheduled Interviews</h2>
+
+        {% if interviews %}
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Applicant</th>
+                    <th>Job Title</th>
+                    <th>Date</th>
+                    <th>Meeting Link</th>
+                    <th>Status</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for interview in interviews %}
+                <tr>
+                    <td>{{ interview.id }}</td>
+                    <td>{{ interview.applicant_name }}</td>
+                    <td>{{ interview.job_title }}</td>
+                    <td>{{ interview.formatted_date }}</td>
+                    <td>
+                        <a href="{{ interview.meeting_link }}" target="_blank">Join</a>
+                    </td>
+                    <td>
+                        <span class="badge bg-info">{{ interview.status }}</span>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('update_interview_scheduled_status') }}" method="POST" class="d-flex">
+                            <input type="hidden" name="interview_id" value="{{ interview.id }}">
+                            <select name="status" class="form-select form-select-sm me-2">
+                                <option value="scheduled" {% if interview.status == "scheduled" %}selected{% endif %}>Scheduled</option>
+                                <option value="completed" {% if interview.status == "completed" %}selected{% endif %}>Completed</option>
+                                <option value="cancelled" {% if interview.status == "cancelled" %}selected{% endif %}>Cancelled</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <div class="alert alert-info">No scheduled interviews found.</div>
+        {% endif %}
+    </div>
+</div>
+
+{% include 'employer/footer.html'%}

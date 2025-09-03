@@ -1,0 +1,684 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f4f4;
+    font-size: 14px;
+}
+/* Navbar Base Styles */
+.custom-navbar {
+    background-color: #121526;
+    padding: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.custom-navbar .navbar-brand {
+    color: #F0FFFC;
+    font-weight: bold;
+    font-size: 1.3rem;
+    transition: color 0.3s ease;
+}
+
+.custom-navbar .navbar-brand:hover {
+    color: #329F82;
+}
+
+.custom-navbar .navbar-brand img {
+    border-radius: 50%;
+}
+
+.custom-navbar .nav-link {
+    color: #F0FFFC !important;
+    margin-left: 1rem;
+    position: relative;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+/* Add underline effect on hover */
+.custom-navbar .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 3px;
+    left: 0;
+    bottom: 0;
+    background-color: #329F82;
+    transition: width 0.3s ease;
+}
+
+/* On hover: change color and animate underline */
+.custom-navbar .nav-link:hover {
+    color: #329F82 !important;
+}
+
+.custom-navbar .nav-link:hover::after {
+    width: 100%;
+}
+
+.custom-navbar .nav-link.active {
+    color: #329F82 !important;
+}
+/* Responsive tweak: small screens = 50% width underline */
+@media (max-width: 768px) {
+    .custom-navbar .nav-link:hover::after {
+        width: 50%;
+      
+    }
+    
+}
+
+/* General button base */
+.navbar-nav .btn {
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Login Button */
+.btn-login {
+    background-color: transparent;
+    color: #F0FFFC !important;
+    border: 1px solid #F0FFFC;
+    margin-left: 10px;
+}
+
+.btn-login:hover {
+    background-color: #345C85;
+    border-color: #345C85;
+    color: #F0FFFC !important;
+}
+
+/* Signup Button */
+.btn-signup {
+    background-color: #329F82;
+    color: #F0FFFC !important;
+    border: 1px solid transparent;
+    margin-left: 10px;
+}
+
+.btn-signup:hover {
+    background-color: #345C85;
+    color: #F0FFFC !important;
+}
+
+/* Ensure horizontal layout on small screens too */
+@media (max-width: 991px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar-nav.d-flex.flex-row {
+        flex-direction: row !important;
+        gap: 0.5rem;
+    }
+}
+
+.hero-section {
+    background-image: url('../images/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    color: #fff;
+}
+
+.hero-content {
+    background-color: rgba(18, 21, 38, 0.8); /* readable dark bg */
+    border-radius: 10px;
+    padding: 40px;
+    height: fit-content;
+    max-width: 90%;
+    margin-right: 30px; /* Push from the right instead of left */
+    margin-left: auto;
+    text-align: left;
+}
+
+.hero-section h1,
+.hero-section p {
+    color: #F0FFFC;
+}
+
+.services-hero {
+    background-image: url('../images/services-hero.jpg'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    color: #fff;
+}
+
+.services-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(18, 21, 38, 0.6); /* Overlay for readability */
+    z-index: 1;
+}
+
+.services-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+.services-section {
+    background-color: #fff;
+    color: #121526;
+}
+
+.section-title {
+    color: #345C85;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.service-title {
+    color: #329F82;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    margin-top: 20px;
+}
+
+.service-text {
+    color: #121526;
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+.service-item img {
+    max-width: 100%;
+    border-radius: 12px;
+}
+
+.footer {
+    background-color: #121526;
+    color: #F0FFFC;
+}
+.footer-logo img{
+    max-width: 70px;
+}
+
+.footer .footer-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.footer .footer-description {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.footer ul {
+    padding-left: 0;
+}
+
+.footer ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer ul li a {
+    text-decoration: none;
+    color: #F0FFFC;
+    transition: color 0.3s;
+}
+
+.footer ul li a:hover {
+    color: #329F82; /* Accent color on hover */
+}
+
+.footer .social-icons a {
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+.footer .social-icons a:hover {
+    color: #329F82; /* Accent color on hover */
+}
+
+.footer .input-group {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.footer .input-group input {
+    border-radius: 30px 0 0 30px;
+    padding: 12px 20px;
+}
+
+.footer .input-group button {
+    border-radius: 0 30px 30px 0;
+    padding: 12px 20px;
+    background-color: #329F82;
+    color: #fff;
+}
+
+.footer .input-group button:hover {
+    background-color: #345C85;
+}
+
+.footer .social-icons {
+    font-size: 2rem;
+}
+
+.footer .social-icons a {
+    margin-right: 15px;
+}
+
+
+/* Feature Intro Section */
+#feature-intro {
+    background-image: url('../images/feature-bg.jpg'); /* Add your background image here */
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    padding: 60px 0;
+    text-align: center;
+}
+
+
+.feature-intro-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.feature-intro-description {
+    font-size: 1.2rem;
+    font-weight: 300;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 767px) {
+    .feature-intro-title {
+        font-size: 2rem;
+    }
+
+    .feature-intro-description {
+        font-size: 1rem;
+    }
+}
+
+/* Features Section */
+#features {
+    background-color: #F0FFFC;
+    color: #121526;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #345C85;
+    margin-bottom: 20px;
+}
+
+.feature-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.feature-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #345C85;
+    margin-top: 15px;
+}
+
+.feature-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #889490;
+    margin-top: 10px;
+}
+
+.feature-card i {
+    color: #329F82;
+}
+
+@media (max-width: 767px) {
+    .feature-card {
+        margin-bottom: 30px;
+    }
+}
+
+/* About Page Hero Section */
+#about-hero {
+    background-image: url('../images/about-hero.jpg'); /* Background image */
+    background-size: cover;
+    background-position: center center;
+    padding: 60px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.about-hero-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #121526!important;
+}
+
+.about-hero-description {
+    font-size: 1.2rem;
+    font-weight: 500;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    color: #121526!important;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #345C85;
+}
+
+/* Mission Section */
+#mission {
+    background-color: #F0FFFC; /* Light background */
+    color: #121526;
+}
+
+.lead {
+    font-size: 1.1rem;
+    font-weight: 300;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Values Section */
+#values {
+    background-color: #fff;
+}
+
+.values-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #345C85;
+}
+
+.values-text {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #121526;
+}
+
+/* FAQ Section */
+#faq {
+    background-color: #F0FFFC;
+    color: #121526;
+}
+
+.faq-question {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #329F82;
+}
+
+.faq-answer {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #121526;
+}
+
+/* Add responsive design adjustments */
+@media (max-width: 767px) {
+    .about-hero-title {
+        font-size: 1.5rem;
+    }
+
+    .about-hero-description {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Contact Form Section */
+#contact-form {
+    background-color: #F0FFFC; /* Light background */
+    color: #121526;
+}
+
+#contact-form .form-label {
+    font-weight: 600;
+    color: #345C85;
+}
+
+#contact-form .form-control {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 1rem;
+    color: #121526;
+}
+
+#contact-form .form-control:focus {
+    border-color: #329F82; /* Accent color on focus */
+    box-shadow: 0 0 0 0.25rem rgba(50, 159, 130, 0.25);
+}
+
+#contact-form .btn-primary {
+    background-color: #329F82;
+    border-color: #329F82;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 8px;
+}
+
+#contact-form .btn-primary:hover {
+    background-color: #345C85;
+    border-color: #345C85;
+}
+
+/* Responsive Design for Form */
+@media (max-width: 767px) {
+    #contact-form .form-control {
+        font-size: 0.9rem;
+    }
+
+    #contact-form .btn-primary {
+        font-size: 1rem;
+    }
+}
+
+
+/* Full-screen Signup Section with Background Image */
+#signup-section-bg {
+    background-image: url('../images/hero.jpg'); /* Background Image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+}
+
+/* Faded overlay to enhance text visibility */
+#signup-section-bg .signup-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for contrast */
+    z-index: 1;
+}
+
+/* Container for the form */
+#signup-section-bg .signup-form-container {
+    z-index: 2;
+    max-width: 500px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.85); /* Light background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.signup-form-container h2, .signup-form-container p{
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Centering title and text */
+#signup-section-bg .section-title {
+    font-size: 25px;
+    color: #121526;
+    margin-bottom: 1rem;
+}
+
+#signup-section-bg .form-label {
+    color: #345C85;
+    font-size: 15px;
+}
+
+#signup-section-bg .form-control, #login-section-bg .form-control{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline: none!important;
+}
+
+#signup-section-bg .form-control:focus {
+    border-color: #329F82;
+}
+
+#signup-section-bg .btn-primary {
+    background-color: #329F82;
+    border-color: #329F82;
+    width: 100%;
+}
+
+#signup-section-bg .btn-primary:hover {
+    background-color: #345C85;
+    border-color: #345C85;
+}
+
+#signup-section-bg .text-center a {
+    color: #329F82;
+    text-decoration: none;
+}
+
+
+
+/* For smaller screen sizes */
+@media (max-width: 767px) {
+    #signup-section-bg .signup-form-container {
+        padding: 20px;
+    }
+}
+
+/* Full-screen Login Section with Background Image */
+#login-section-bg {
+    background-image: url('../images/hero.jpg'); /* Background Image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+}
+
+/* Faded overlay to enhance text visibility */
+#login-section-bg .login-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for contrast */
+    z-index: 1;
+}
+
+/* Container for the form */
+#login-section-bg .login-form-container {
+    z-index: 2;
+    max-width: 500px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.85); /* Light background */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Centering title and text */
+#login-section-bg .section-title {
+    font-size: 25px;
+    color: #121526;
+    margin-bottom: 1rem;
+}
+
+#login-section-bg .form-label {
+    color: #345C85;
+}
+
+#login-section-bg .form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#login-section-bg .form-control:focus {
+    border-color: #329F82;
+}
+
+#login-section-bg .btn-primary {
+    background-color: #329F82;
+    border-color: #329F82;
+    width: 100%;
+}
+
+#login-section-bg .btn-primary:hover {
+    background-color: #345C85;
+    border-color: #345C85;
+}
+
+#login-section-bg .text-center a {
+    color: #329F82;
+    text-decoration: none;
+}
+.login-form-container p{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+/* For smaller screen sizes */
+@media (max-width: 767px) {
+    #login-section-bg .login-form-container {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,62 @@
+
+
+    {% include 'user/header.html'%}
+    
+
+
+   
+    <!-- Page Content -->
+    <div class="content job-details-page mt-5">
+        <div class="container">
+       
+            {% block content %}
+
+            <div class="container mt-5">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ job.title }}</h3>
+                        <p class="text-muted">Company: {{ job.company }}</p>
+                        <p class="text-muted">Location: {{ job.location }}</p>
+                        <p class="text-muted">Department: {{ job.department }}</p>
+                        <p class="text-muted">Job Type: {{ job.job_type }}</p>
+                        <p class="text-muted">Experience Required: {{ job.experience }}</p>
+                        <p class="text-muted">Salary: {{ job.salary }}</p>
+
+                        <hr>
+                        <h5>Description</h5>
+                        <p>{{ job.description }}</p>
+
+                        <h5>Required Skills</h5>
+                        <ul>
+                            {% for skill in job.skills.split(',') %}
+                                <li>{{ skill.strip() }}</li>
+                            {% endfor %}
+                        </ul>
+
+                        <div class="d-flex gap-3 mt-4">
+                            <!-- Save Job -->
+                            <form method="POST" action="{{ url_for('save_job_direct') }}">
+                                <input type="hidden" name="job_id" value="{{ job.id }}">
+                                <button type="submit" class="btn btn-outline-secondary">Save</button>
+                            </form>
+
+                            <!-- Apply Job -->
+                            <form method="POST" action="{{ url_for('apply_job') }}">
+                                <input type="hidden" name="job_id" value="{{ job.id }}">
+                                <button type="submit" class="btn btn-success">Apply Now</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endblock %}
+
+        </div>
+    </div>
+    
+    
+
+
+
+    {% include 'user/footer.html'%}

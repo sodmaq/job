@@ -1,0 +1,156 @@
+{%include 'employer/header.html'%}
+
+    
+
+    <!-- Page Content -->
+    <div class="content view-applicants-page mt-5">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="text-primary">View Applicants</h1>
+                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#applicantDetailsModal">
+                    <i class="fas fa-eye me-2"></i> View Applicant Details
+                </button>
+            </div>
+    
+            <p class="lead mb-5">Here is the list of applicants for the job. You can view their details, resume, and take appropriate actions.</p>
+    
+            <!-- Applicants Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Applicant Name</th>
+                            <th>Job Title</th>
+                            <th>Applied On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if applicants %}
+                            {% for a in applicants %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ a.applicant_name }}</td>
+                                    <td>{{ a.job_title }}</td>
+                                    <td>{{ a.applied_at.strftime('%Y-%m-%d') if a.applied_at else 'N/A' }}</td>
+                                    <td>
+                                        <!-- Trigger Modals -->
+                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal{{ a.id }}">
+                                            View Details
+                                        </button>
+                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#interviewModal{{ a.id }}">
+                                            Invite
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{ a.id }}">
+                                            Reject
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Details Modal -->
+                                <div class="modal fade" id="detailsModal{{ a.id }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Applicant Details</h5>
+                                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><strong>Name:</strong> {{ a.applicant_name }}</p>
+                                                <p><strong>Email:</strong> {{ a.applicant_email }}</p>
+                                                <p><strong>Phone:</strong> {{ a.applicant_phone }}</p>
+                                                <p><strong>Applied On:</strong> {{ a.applied_at.strftime('%Y-%m-%d') if a.applied_at else 'N/A' }}</p>
+                                                <p><strong>Job Title:</strong> {{ a.job_title }}</p>
+                                                <p><strong>Status:</strong> {{ a.status }}</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Interview Modal -->
+                                <div class="modal fade" id="interviewModal{{ a.id }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form method="POST" action="{{ url_for('invite_applicant', application_id=a.id, job_seeker_id=a.user_id, job_id=a.job_id) }}">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Invite for Interview</h5>
+                                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Invite <strong>{{ a.applicant_name }}</strong> for interview?</p>
+                                                    <p><strong>Job:</strong> {{ a.job_title }}</p>
+
+                                                    <!-- Interview Date & Time -->
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Interview Date</label>
+                                                        <input type="date" name="interview_date" class="form-control" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Interview Time</label>
+                                                        <input type="time" name="interview_time" class="form-control" required>
+                                                    </div>
+
+                                                    <!-- Meeting Link (Zoom, Google Meet, Teams) -->
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Meeting Link</label>
+                                                        <input type="url" name="meeting_link" class="form-control" placeholder="https://meet.google.com/..." required>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-success">Send Invite</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- Reject Modal -->
+                                <div class="modal fade" id="rejectModal{{ a.id }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form method="POST" action="{{ url_for('reject_applicant', applicant_id=a.id) }}">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Reject Applicant</h5>
+                                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Reject <strong>{{ a.name }}</strong>'s application?</p>
+                                                    <p><strong>Job:</strong> {{ a.job_title }}</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center">No applicants found.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+    
+  
+    </div>
+    
+   
+    
+    
+
+    {%include 'employer/footer.html'%}

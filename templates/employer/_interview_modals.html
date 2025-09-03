@@ -1,0 +1,112 @@
+<!-- Reschedule Modal -->
+<div class="modal fade" id="rescheduleModal{{ interview.application_id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('reschedule_interview', application_id=interview.application_id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reschedule Interview</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="newDate">New Interview Date</label>
+                    <input type="date" name="new_date" id="newDate" class="form-control" required>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-success" type="submit">Reschedule</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Modal -->
+<div class="modal fade" id="cancelModal{{ interview.application_id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('cancel_interview', application_id=interview.application_id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cancel Interview</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to cancel the interview for <strong>{{ interview.applicant_name }}</strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Cancel Interview</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Accept Modal -->
+<div class="modal fade" id="acceptModal{{ interview.application_id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('accept_candidate', application_id=interview.application_id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Accept Candidate</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Confirm acceptance of <strong>{{ interview.applicant_name }}</strong> for <strong>{{ interview.job_title }}</strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit">Accept</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectModal{{ interview.application_id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('reject_applicant', applicant_id=interview.application_id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reject Candidate</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to reject <strong>{{ interview.applicant_name }}</strong>?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-warning" type="submit">Reject</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Update Status Modal -->
+<div class="modal fade" id="statusModal{{ interview.application_id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST" action="{{ url_for('update_interview_status') }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Update Interview Status</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="application_id" value="{{ interview.application_id }}">
+
+          <label for="status" class="form-label">Select Status</label>
+          <select class="form-select" name="status" required>
+            <option value="">-- Choose --</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,363 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Apply to entire body */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FFF;
+    color: #121526;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+.content {
+    padding-top: 20px; /* This will push the content below the navbar */
+}
+.navbar{
+    background: #121526!important;
+}
+/* Page Headings */
+.content h1 {
+    font-size: 20px;
+    color: #345C85;
+    font-weight: 600;
+}
+
+.content h3 {
+    color: #329F82;
+    font-weight: 500;
+}
+
+/* Summary Cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    background-color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.card h5 {
+    font-weight: 600;
+}
+
+.card p {
+    font-size: 14px;
+    color: #889490;
+}
+
+/* Buttons */
+.btn-outline-primary {
+    color: #345C85;
+    border-color: #345C85;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #345C85;
+    color: #fff;
+}
+
+/* Alert box */
+.alert-warning {
+    background-color: #fff8e1;
+    border: 1px solid #ffe082;
+    color: #8a6d3b;
+    border-radius: 8px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .content h1 {
+        font-size: 1.75rem;
+    }
+}
+
+/* Sidebar styles */
+#sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100%;
+    background-color: #121526;
+    transition: all 0.3s ease;
+}
+
+/* When sidebar is active (toggled) */
+#sidebar.active {
+    left: 0;
+}
+
+/* Sidebar list styles */
+#sidebar ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between; /* Ensures the last item (logout) stays at the bottom */
+}
+
+/* Sidebar list item styles */
+#sidebar ul li {
+    padding: 15px;
+    border-bottom: 1px solid #345C85;
+}
+
+/* Sidebar link styles */
+#sidebar ul li a {
+    color: #F0FFFC;
+    text-decoration: none;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/* Hover effect for sidebar links */
+#sidebar ul li a:hover {
+    color: #329F82; /* Green accent on hover */
+}
+
+/* Highlight Logout link */
+.sidebar-body ul li a.logout {
+    background-color: #FF5733; /* Distinct color for the Logout link */
+    border-radius: 5px;
+}
+
+/* Hover effect for the Logout link */
+.sidebar-body ul li a.logout:hover {
+    background-color: #D42F1A; /* Darker color on hover */
+    padding-left: 10px; /* Indentation effect */
+}
+
+/* Optional: Ensure the last list item (Logout) stays at the bottom */
+.sidebar-body ul li:last-child {
+    margin-top: auto; /* Pushes the last item (Logout) to the bottom */
+}
+.sidebar-body ul li a i {
+    margin-right: 10px; /* Adjust the spacing as needed */
+}
+/* Page content */
+.content {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+}
+.content.active {
+    margin-left: 250px;
+}
+/* Sidebar toggle button */
+.sidebar-toggle {
+    position: absolute;
+    
+    left: 20px;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+.custom-toggler {
+    background: none;
+    border: none;
+    color: #F0FFFC;
+    font-size: 24px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.custom-toggler:hover {
+    color: #329F82;
+}
+
+.custom-toggler:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Style for the Job Details Page */
+.job-details-page {
+    background: #f4f8fb; /* Light background to make the content stand out */
+    padding-top: 40px;
+}
+
+h1.text-primary {
+    font-size: 36px;
+    font-weight: bold;
+    color: #345C85; /* Primary color */
+}
+
+.job-meta, .related-jobs {
+    background-color: #ffffff; /* White background to separate sections */
+    border-radius: 8px; /* Rounded corners for modern look */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+}
+
+.job-description h4, .job-description h5 {
+    font-size: 1.25rem;
+    color: #345C85;
+    font-weight: bold;
+}
+
+ul.list-unstyled li {
+    font-size: 1rem;
+    color: #333;
+    padding: 5px 0;
+}
+
+ul.list-unstyled li i {
+    color: #329F82; /* Green color for check icons */
+    margin-right: 10px;
+}
+
+/* Buttons */
+.btn {
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-outline-success, .btn-outline-secondary {
+    border-color: #329F82;
+    color: #329F82;
+}
+
+.btn-outline-success:hover, .btn-outline-secondary:hover {
+    background-color: #329F82;
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: #345C85;
+    border-color: #345C85;
+}
+
+.btn-primary:hover {
+    background-color: #2b4f72;
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+    h1.text-primary {
+        font-size: 28px;
+    }
+
+    .job-meta, .job-description, .related-jobs {
+        margin-bottom: 20px;
+    }
+    
+    .job-description ul {
+        padding-left: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+/* Style for Saved Jobs Page */
+.saved-jobs-page {
+    background: #f4f8fb;
+    padding-top: 40px;
+}
+
+h1.text-primary {
+    font-size: 36px;
+    font-weight: bold;
+    color: #345C85;
+}
+
+table {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+th {
+    background-color: #121526!important;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+td a {
+    color: #345C85;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: none;
+}
+
+button {
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* No Saved Jobs Message */
+.no-saved-jobs {
+    display: none;
+}
+
+.no-saved-jobs h4 {
+    font-size: 20px;
+    color: #345C85;
+}
+
+.no-saved-jobs p {
+    color: #333;
+    font-size: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    h1.text-primary {
+        font-size: 28px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    td, th {
+        padding: 4px;
+    }
+}

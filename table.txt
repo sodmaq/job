@@ -1,0 +1,157 @@
+-- Drop the database if it exists
+DROP DATABASE IF EXISTS healthcare_db;
+
+-- Recreate the database
+CREATE DATABASE healthcare_db;
+USE healthcare_db;
+
+-- Recreate tables without foreign keys
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255),
+    role ENUM('job_seeker', 'employer') DEFAULT 'job_seeker',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE employers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    company_name VARCHAR(150),
+    logo VARCHAR(255),
+    description TEXT
+    -- FOREIGN KEY (user_id) removed
+);
+
+CREATE TABLE resumes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    file_path VARCHAR(255),
+    parsed_name VARCHAR(100),
+    parsed_email VARCHAR(100),
+    parsed_skills TEXT,
+    parsed_experience TEXT,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -- FOREIGN KEY (user_id) removed
+);
+
+CREATE TABLE jobs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    employer_id INT,
+    title VARCHAR(100),
+    description TEXT,
+    skills_required TEXT,
+    experience_required VARCHAR(50),
+    salary_range VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -- FOREIGN KEY (employer_id) removed
+);
+
+CREATE TABLE applications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    job_id INT,
+    user_id INT,
+    status ENUM('applied', 'accepted', 'rejected', 'interview_scheduled') DEFAULT 'applied',
+    applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -- FOREIGN KEYS removed
+);
+
+CREATE TABLE notifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    message TEXT,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -- FOREIGN KEY (user_id) removed
+);
+
+CREATE TABLE feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    recommendation_feedback TEXT,
+    feature_suggestion TEXT,
+    rating INT,
+    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -- FOREIGN KEY (user_id) removed
+);
+
+CREATE TABLE interviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    application_id INT,
+    interview_date DATETIME,
+    status ENUM('scheduled', 'rescheduled', 'cancelled', 'completed'),
+    feedback TEXT
+    -- FOREIGN KEY (application_id) removed
+);
+
+CREATE TABLE employers_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    company_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+SELECT * from employers_log;
+SELECT * from users;
+DROP TABLE jobs;
+CREATE TABLE jobs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    department VARCHAR(100),
+    job_type VARCHAR(50),
+    experience VARCHAR(50),
+    salary VARCHAR(100),
+    location VARCHAR(100),
+    description TEXT,
+    skills TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+SELECT * FROM jobs;
+DROP TABLE employers;
+select * from applications;
+CREATE TABLE saved_jobs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    job_id INT,
+    saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),  -- assuming you have a 'users' table
+    FOREIGN KEY (job_id) REFERENCES jobs(id)     -- assuming you have a 'jobs' table
+);
+select * from jobs;
+
+ALTER TABLE saved_jobs
+DROP FOREIGN KEY saved_jobs_ibfk_2;
+
+ALTER TABLE saved_jobs
+ADD CONSTRAINT saved_jobs_ibfk_2
+    FOREIGN KEY (job_id)
+    REFERENCES jobs(id)
+    ON DELETE CASCADE;
+select * from saved_jobs;
+
+CREATE TABLE saved_jobs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    job_id INT NOT NULL,
+    match_score INT DEFAULT 0,
+    saved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE RESTRICT
+);
+CREATE TABLE applied_jobs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    job_id INT NOT NULL,
+    applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (job_id) REFERENCES jobs(id)
+);
+
+
+Delete from applied_jobs where id = 1;
+select * from applied_jobs;
+
+
+

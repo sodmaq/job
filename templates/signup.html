@@ -1,0 +1,69 @@
+{% include 'head.html' %}
+
+<!-- Full-screen Signup Section with Background Image -->
+<section id="signup-section-bg" class="signup-section-bg d-flex align-items-center justify-content-center" style="padding-top: 100px;">
+    <div class="signup-overlay"></div>
+    <div class="signup-form-container">
+        <h2 class="section-title text-center">Create Your Account</h2>
+        <p class="text-center lead mb-4">Start your journey with us and unlock new job opportunities.</p>
+
+        <form action="/signup" method="POST" id="signupForm">
+            <!-- Role Selector -->
+            <div class="mb-3">
+                <label for="role" class="form-label">Register As</label>
+                <select class="form-control" id="role" name="role" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="job_seeker">Job Seeker</option>
+                    <option value="employer">Employer</option>
+                </select>
+            </div>
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name / Company Name</label>
+                <input type="text" class="form-control" id="name" name="name" required placeholder="Enter your name or company name">
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" required placeholder="Enter your email address">
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required placeholder="Choose a password">
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="confirm-password" name="confirm-password" required placeholder="Confirm your password">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </div>
+        </form>
+
+        <p class="text-center mt-3">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script type="text/javascript">
+                {% for category, message in messages %}
+                    Swal.fire({
+                        title: "{{ message }}",
+                        icon: "{{ 'success' if category == 'success' else 'error' }}",
+                        confirmButtonText: "Okay"
+                    });
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
+</section>
+
+{% include 'footer.html' %}

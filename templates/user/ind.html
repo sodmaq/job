@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Powered Job Search - Dashboard</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="css/sweetalert.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Favicon for the site -->
+    <link rel="icon" href="images/logo.jpg">
+</head>
+<body>
+    <!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="dashboard.html">
+            <img src="images/logo.png" alt="Logo" width="150">
+        </a> -->
+        <!-- Hamburger Icon for small screens -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.php">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="d-flex">
+    <!-- Sidebar Toggle Button for Small Screens -->
+    <button id="sidebarToggle" class="btn btn-dark d-lg-none">☰</button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h4>Job Seeker Dashboard</h4>
+        </div>
+        <div class="sidebar-body">
+            <ul class="list-unstyled">
+                <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="recommended-jobs.html"><i class="fas fa-briefcase"></i> Recommended Jobs</a></li>
+                <li><a href="saved-jobs.html"><i class="fas fa-bookmark"></i> Saved Jobs</a></li>
+                <li><a href="upload-resume.html"><i class="fas fa-upload"></i> Upload Resume</a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+                <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+                <li><a href="feedback.html"><i class="fas fa-comment"></i> Feedback</a></li>
+                <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="content-container p-4">
+        <!-- Your page content here -->
+    </div>
+</div>
+
+
+    <!-- Scripts -->
+    <script src="js/all.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/dataTables.bootstrap5.min.js"></script>
+    <script src="js/jquery-3.5.1.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/sweetalert.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- Initialize AOS for animations -->
+    <script>
+        AOS.init();
+    </script>
+
+    <script>
+        // Functionality for sidebar toggle on smaller screens
+        const sidebarToggle = document.querySelector('.navbar-toggler');
+        const sidebar = document.getElementById('sidebar');
+
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

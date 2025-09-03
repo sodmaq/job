@@ -1,0 +1,96 @@
+{% include 'employer/header.html' %}
+
+<!-- Page Content -->
+<div class="content approved-applications-page mt-5">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-primary">✅ Approved Applications</h1>
+        </div>
+
+        <p class="lead">Here are all applicants who have been <strong>approved</strong> for your job postings.</p>
+
+        <!-- Approved Applications -->
+        <div class="row mt-4">
+            {% if applications %}
+                {% for app in applications %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card shadow-sm h-100 border-success">
+                            <div class="card-body">
+                                <h5 class="card-title text-success">
+                                    {{ loop.index }}. {{ app.name }}
+                                </h5>
+                                <p class="mb-1"><strong>Email:</strong> {{ app.email }}</p>
+                                <p class="mb-1"><strong>Job:</strong> {{ app.job_title }}</p>
+                                <p class="mb-1"><strong>Company:</strong> {{ app.company }}</p>
+                                <p class="mb-1"><strong>Location:</strong> {{ app.location }}</p>
+                                <p class="mb-1"><strong>Applied On:</strong> 
+                                    {{ app.applied_at.strftime('%b %d, %Y') if app.applied_at else '' }}
+                                </p>
+
+                                <div class="mt-3">
+                                    {% if app.resume_url %}
+                                        <a href="{{ app.resume_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                            📄 View Resume
+                                        </a>
+                                    {% endif %}
+                                    <!-- Send Message Button -->
+                                    <button 
+                                        class="btn btn-outline-success btn-sm"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#messageModal{{ app.application_id }}">
+                                        ✉️ Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message Modal -->
+                    <div class="modal fade" id="messageModal{{ app.application_id }}" tabindex="-1" aria-labelledby="messageModalLabel{{ app.application_id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <form method="POST" action="{{ url_for('send_message_to_applicant') }}">
+                                    <div class="modal-header bg-success text-white">
+                                        <h5 class="modal-title" id="messageModalLabel{{ app.application_id }}">
+                                            Send Message to {{ app.name }}
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="email" value="{{ app.email }}">
+                                        <input type="hidden" name="name" value="{{ app.name }}">
+                                        <input type="hidden" name="application_id" value="{{ app.application_id }}">
+                                        <input type="hidden" name="user_id" value="{{ app.user_id }}">
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Subject</label>
+                                            <input type="text" class="form-control" name="subject" placeholder="Enter subject" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Message</label>
+                                            <textarea class="form-control" name="message" rows="6" placeholder="Type your message here..." required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-success">Send</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        No approved applications yet.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% include 'employer/footer.html' %}

@@ -1,0 +1,141 @@
+{% include 'user/header.html'%}
+    
+
+    <!-- Page Content -->
+    <div class="content mt-5">
+        <div class="container">
+            <h1 class="my-5 text-center text-primary">Upload Your Resume</h1>
+            <p class="lead text-center mb-5">Upload your latest resume to get personalized job recommendations based on your skills and experience.</p>
+    
+            <!-- Upload Form -->
+            <form id="resumeUploadForm" enctype="multipart/form-data" class="shadow-sm p-4 rounded bg-light" method="POST">
+                <div class="mb-4">
+                    <label for="resumeFile" class="form-label">Choose Resume File (.pdf or .docx)</label>
+                    <input type="file" class="form-control" id="resumeFile" name="resumeFile" accept=".pdf,.docx" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-primary">Upload Resume</button>
+                </div>
+            </form>
+            
+    
+            <!-- Progress and Response -->
+            <div id="uploadStatus" class="mt-5 d-none">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" id="progressBar">0%</div>
+                </div>
+                <div class="alert alert-success mt-3 d-none" id="successMsg">Resume uploaded and parsed successfully!</div>
+            </div>
+    
+            <!-- Parsed Resume Info -->
+            <div id="parsedResume" class="mt-5 d-none">
+                <h4 class="text-center">Extracted Resume Details</h4>
+                <ul class="list-group shadow-sm">
+                    <li class="list-group-item"><strong>Name:</strong> <span id="parsedName"></span></li>
+                    <li class="list-group-item"><strong>Email:</strong> <span id="parsedEmail"></span></li>
+                    <li class="list-group-item"><strong>Skills:</strong> <span id="parsedSkills"></span></li>
+                    <li class="list-group-item"><strong>Experience:</strong> <span id="parsedExperience"></span></li>
+                </ul>
+                <div class="text-center mt-4">
+                    <button id="continueBtn" class="btn btn-success">Continue to Job Search</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+
+
+    <script>
+        document.getElementById('resumeUploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+        
+            const formData = new FormData(this);
+            const uploadStatus = document.getElementById('uploadStatus');
+            const progressBar = document.getElementById('progressBar');
+            const successMsg = document.getElementById('successMsg');
+            const parsedResume = document.getElementById('parsedResume');
+        
+            // Reset UI elements
+            progressBar.style.width = '0%';
+            progressBar.innerText = 'Starting...';
+            successMsg.classList.add('d-none');
+            parsedResume.classList.add('d-none');
+        
+            // Show progress bar
+            uploadStatus.classList.remove('d-none');
+            progressBar.style.width = '30%';
+            progressBar.innerText = 'Uploading...';
+        
+            fetch('/user/upload_resume', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (!data.success) {
+                    alert(data.error || 'Upload failed');
+                    uploadStatus.classList.add('d-none');
+                    return;
+                }
+        
+                const extracted = data.data;
+        
+                // Fill in the parsed data
+                document.getElementById('parsedName').innerText = extracted.name || 'N/A';
+                document.getElementById('parsedEmail').innerText = extracted.email || 'N/A';
+                document.getElementById('parsedSkills').innerText = extracted.skills || 'N/A';
+                document.getElementById('parsedExperience').innerText = extracted.experience || 'N/A';
+        
+                // Show success visuals
+                progressBar.style.width = '100%';
+                progressBar.innerText = 'Upload Complete';
+                successMsg.classList.remove('d-none');
+                parsedResume.classList.remove('d-none');
+            })
+            .catch(err => {
+                console.error('Upload error:', err);
+                alert('An error occurred. Please try again.');
+                uploadStatus.classList.add('d-none');
+            });
+        });
+    </script>
+        
+    
+
+        <script>
+            document.getElementById('continueBtn').addEventListener('click', function() {
+                const name = document.getElementById('parsedName').innerText;
+                const email = document.getElementById('parsedEmail').innerText;
+                const skills = document.getElementById('parsedSkills').innerText;
+                const experience = document.getElementById('parsedExperience').innerText;
+        
+                // Send to job search route (you can change this route name)
+                fetch('/user/start_job_search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, skills, experience })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Redirect to recommended jobs or show them here
+                        window.location.href = '/user/recommended_jobs';
+                    } else {
+                        alert('Something went wrong while starting job search.');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error connecting to server.');
+                });
+            });
+        </script>
+        
+    
+
+    {% include 'user/footer.html'%}
+    

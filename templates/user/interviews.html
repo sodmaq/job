@@ -1,0 +1,39 @@
+{% include 'user/header.html'%}
+
+<!-- Page Content -->
+<div class="content notifications-page mt-5 mb-5">
+    <div class="container">
+        <h1 class="my-4 text-center" style="color: #345C85;">🎤 Interview Invites</h1>
+        <p class="lead text-center text-muted mb-5">Here are your scheduled interviews. Join directly or view details.</p>
+
+        <div class="bg-white shadow rounded p-4">
+            <h4 class="mb-4" style="color: #329F82;">Upcoming Interviews</h4>
+            {% if interviews %}
+                <ul class="list-group list-group-flush">
+                    {% for interview in interviews %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-bottom py-3" style="background-color: #F0FFFC;">
+                            <div class="d-flex flex-column">
+                                <span>📌 <strong>{{ interview.job_title }}</strong></span>
+                                <span class="text-muted">📅 {{ interview.formatted_date }}</span>
+
+                                {% if interview.meeting_link %}
+                                    <a href="{{ interview.meeting_link }}" target="_blank" class="btn btn-sm btn-primary mt-2">
+                                        🔗 Join Meeting
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <span class="badge bg-secondary rounded-pill px-3 py-2">Status: {{ interview.status }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-info text-center shadow-sm">
+                    <i class="fas fa-bell-slash fs-4 text-muted"></i>
+                    <p class="mt-2 mb-0">No interview invites yet. Keep an eye here!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% include 'user/footer.html'%}

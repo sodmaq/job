@@ -1,0 +1,55 @@
+{%include 'employer/header.html'%}
+
+    
+
+    <!-- Page Content -->
+    <div class="content interview-booked-page mt-5">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="text-primary">Interview Booked</h1>
+            </div>
+    
+            <p class="lead mb-5">The interview for the applicant has been successfully scheduled. Below are the interview details.</p>
+    
+            <!-- Interview Details -->
+           <div class="container mt-4">
+    <h4 class="mb-4">Interview Invitations</h4>
+    {% for interview in interviews %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-left-success">
+                <div class="card-body">
+                    <h5 class="card-title">{{ loop.index }}. {{ interview.applicant_name }}</h5> <!-- Added index -->
+                    <p class="card-text"><strong>Email:</strong> {{ interview.applicant_email }}</p>
+                    <p class="card-text"><strong>Job:</strong> {{ interview.job_title }}</p>
+                    <p class="card-text"><strong>Invited On:</strong> {{ interview.applied_at.strftime('%Y-%m-%d') }}</p>
+
+                    <div class="btn-group w-100 mt-3" role="group">
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#rescheduleModal{{ interview.application_id }}">Reschedule</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal{{ interview.application_id }}">Cancel</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#acceptModal{{ interview.application_id }}">Accept</button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#rejectModal{{ interview.application_id }}">Reject</button>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals (One Set per Applicant) -->
+        {% include 'employer/_interview_modals.html' %}
+    {% endfor %}
+
+</div>
+
+
+        </div>
+    </div>
+    
+  
+    
+    
+   
+    {%include 'employer/footer.html'%}

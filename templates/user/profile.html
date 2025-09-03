@@ -1,0 +1,77 @@
+{% include 'user/header.html'%}
+
+<div class="content profile-page mt-5">
+    <div class="container">
+        <h1 class="my-4 text-center text-primary">Profile Settings</h1>
+        <p class="lead text-center mb-5">Update your personal information, preferences, and account settings.</p>
+
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <!-- Personal Information -->
+                <div class="card shadow-sm mb-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Personal Information</h5>
+                        <form action="{{ url_for('update_profile_info') }}" method="POST">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       value="{{ user.name if user else '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email"
+                                       value="{{ user.email if user else '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                       value="{{ user.phone if user and user.phone else '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location"
+                                       value="{{ user.location if user and user.location else '' }}">
+                            </div>
+                            <button type="submit" class="btn btn-success mt-3">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Job Preferences -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Job Preferences</h5>
+                        <form action="{{ url_for('update_preferences') }}" method="POST">
+                            <div class="mb-3">
+                                <label for="preference" class="form-label">Preferred Job Type</label>
+                                <select class="form-select" id="preference" name="preference">
+                                    <option value="Full-Time" {% if user and user.preference == 'Full-Time' %}selected{% endif %}>Full-Time</option>
+                                    <option value="Part-Time" {% if user and user.preference == 'Part-Time' %}selected{% endif %}>Part-Time</option>
+                                    <option value="Freelance" {% if user and user.preference == 'Freelance' %}selected{% endif %}>Freelance</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success mt-3">Save Preferences</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Picture -->
+            <!-- <div class="col-lg-4 col-md-12">
+                <div class="text-center mb-5">
+                    <img src="{{ url_for('static', filename='uploads/profile_pics/' + user.profile_picture) if user and user.profile_picture else url_for('static', filename='images/about.jpg') }}"
+                         alt="Profile Picture"
+                         class="rounded-circle img-fluid"
+                         style="width: 150px; height: 150px;">
+
+                    <form action="{{ url_for('update_profile_picture') }}" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="profile_picture" accept=".png,.jpg,.jpeg,.gif" class="form-control mb-2">
+                        <button type="submit" class="btn btn-outline-success">Change Profile Picture</button>
+                    </form>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+{% include 'user/footer.html'%}
