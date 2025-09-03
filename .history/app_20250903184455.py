@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 
 # app = Flask(__name__)
 # app.secret_key = 'supersecret123'
-app = Flask(__name__, static_folder='static', static_url_path='', template_folder='templates')
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = 'supersecret123'
 
 db_config = {
@@ -994,11 +994,6 @@ def user_interviews():
     db.close()
 
     return render_template("user/interviews.html", interviews=interviews)
-
-
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('static', filename)
 
 
 @app.route('/user/profile')

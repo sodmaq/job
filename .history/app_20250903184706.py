@@ -996,10 +996,6 @@ def user_interviews():
     return render_template("user/interviews.html", interviews=interviews)
 
 
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('static', filename)
-
 
 @app.route('/user/profile')
 def user_profile():
