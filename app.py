@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 
 # app = Flask(__name__)
 # app.secret_key = 'supersecret123'
-app = Flask(__name__, static_folder='static', static_url_path='', template_folder='templates')
+app = Flask(__name__, static_folder='static', static_url_path='/static', template_folder='templates')
 app.secret_key = 'supersecret123'
 
 app.config['SESSION_COOKIE_SECURE'] = True   # only send cookie via HTTPS
@@ -57,57 +57,73 @@ def services():
     return render_template('services.html')
 
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        role = request.form['role']
-        email = request.form['email']
-        password = request.form['password']
-
+        print("=== LOGIN ATTEMPT ===")
+        
+        role = request.form.get('role')
+        email = request.form.get('email') 
+        password = request.form.get('password')
+        
+        print(f"Role: '{role}'")
+        print(f"Email: '{email}'")
+        print(f"Password length: {len(password) if password else 0}")
+        
         if not role or role not in ['job_seeker', 'employer']:
+            print("❌ Invalid role")
             flash("Please select a valid role.", "error")
             return redirect('/login')
 
         try:
-            db = mysql.connector.connect(
-                host='db.pxxl.pro',
-                user='user_deb2e6c5',
-                password='8ca5809f66c97bceb7967901c84296e5',
-                database='db_d728de84'
-            )
+            print("🔍 Connecting to database...")
+            db = mysql.connector.connect(**db_config)
             cursor = db.cursor()
 
             # Choose table based on role
             table = 'users' if role == 'job_seeker' else 'employers'
+            print(f"🔍 Checking table: {table}")
 
-            cursor.execute(f"SELECT * FROM {table} WHERE email = %s AND password = %s", (email, password))
-            user = cursor.fetchone()
-
+            query = f"SELECT * FROM {table} WHERE email = %s AND password = %s"
+            print(f"🔍 Query: {query}")
+            print(f"🔍 Parameters: email='{email}', password='***'")
             
+            cursor.execute(query, (email, password))
+            user = cursor.fetchone()
+            
+            print(f"🔍 Query result: {user is not None}")
             if user:
-                # Clear old sessions (to avoid role conflicts)
+                print(f"🔍 User found: ID={user[0]}, Name={user[1]}")
+            else:
+                print("❌ No user found with these credentials")
+
+            if user:
+                # Clear old sessions
                 session.clear()
 
                 if role == 'job_seeker':
                     session['user_id'] = user[0]
                     session['user_name'] = user[1]
                     session['role'] = role
-                    flash("✅ Logged in successfully as Job Seeker!", "success")
+                    print("✅ Job seeker logged in, redirecting to /user/")
+                    flash("Logged in successfully as Job Seeker!", "success")
                     return redirect('/user/')
                 else:
                     session['employer_id'] = user[0]
                     session['employer_name'] = user[1]
                     session['role'] = 'employer'
-                    flash("✅ Logged in successfully as Employer!", "success")
+                    print("✅ Employer logged in, redirecting to /employer/")
+                    flash("Logged in successfully as Employer!", "success")
                     return redirect('/employer/')
-
             else:
-                flash("❌ Invalid email or password.", "error")
+                print("❌ Login failed - invalid credentials")
+                flash("Invalid email or password.", "error")
                 return redirect('/login')
 
         except mysql.connector.Error as err:
-            print("❌ Login error:", err)
-            flash("Something went wrong. Please try again.", "error")
+            print(f"❌ Database error: {err}")
+            flash("Database connection error. Please try again.", "error")
 
         finally:
             if 'cursor' in locals():
@@ -122,11 +138,11 @@ def login():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        role = request.form['role']
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['confirm-password']
+        role = request.form.get('role')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm-password')
 
         if not role or role not in ['job_seeker', 'employer']:
             flash("Please select a valid role.", "error")
@@ -136,50 +152,66 @@ def signup():
             flash("Passwords do not match.", "error")
             return redirect('/signup')
 
+        db = None
+        cursor = None
+        
         try:
-            db = mysql.connector.connect(
-                host='db.pxxl.pro',
-                user='user_deb2e6c5',
-                password='8ca5809f66c97bceb7967901c84296e5',
-                database='db_d728de84'
-            )
+            db = mysql.connector.connect(**db_config)
             cursor = db.cursor()
 
-            # Choose table based on role
             table = 'users' if role == 'job_seeker' else 'employers'
-
-            # Check if email already exists in the chosen table
+            
+            # Check if email already exists
             cursor.execute(f"SELECT * FROM {table} WHERE email = %s", (email,))
             if cursor.fetchone():
                 flash("Email already registered.", "error")
                 return redirect('/signup')
 
-            # Insert into appropriate table
+            # Insert new user
             cursor.execute(
                 f"INSERT INTO {table} (name, email, password) VALUES (%s, %s, %s)",
                 (name, email, password)
             )
             db.commit()
-
-            flash("✅ Account created successfully!", "success")
+            flash("Account created successfully!", "success")
             return redirect('/login')
 
         except mysql.connector.Error as err:
-            print("❌ Error during signup:", err)
+            print(f"Signup error: {err}")
             flash("Something went wrong. Please try again.", "error")
 
         finally:
-            if 'cursor' in locals():
+            if cursor:
                 cursor.close()
-            if 'db' in locals():
+            if db:
                 db.close()
 
     return render_template('signup.html')
 
-
 # ----------------------
 # Employer Routes
 # ----------------------
+
+@app.route('/debug-db')
+def debug_db():
+    try:
+        db = mysql.connector.connect(**db_config)
+        cursor = db.cursor()
+        
+        cursor.execute("SELECT COUNT(*) FROM users")
+        user_count = cursor.fetchone()[0]
+        
+        cursor.execute("SELECT COUNT(*) FROM employers") 
+        employer_count = cursor.fetchone()[0]
+        
+        return f"Users: {user_count}, Employers: {employer_count}"
+    except Exception as e:
+        return f"Database error: {str(e)}"
+    finally:
+        if 'cursor' in locals():
+            cursor.close()
+        if 'db' in locals():
+            db.close()
 @app.route('/employer/')
 def employer_index():
     db = None
@@ -240,12 +272,7 @@ def employer_index():
 @app.route('/employer/interview')
 def employer_interview():
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("""
@@ -281,71 +308,70 @@ def employer_interview():
 #   -----------
 @app.route('/employer/post_job', methods=['GET', 'POST'])
 def employer_post_job():
+    if 'employer_id' not in session:
+        flash("Please log in as an employer to post jobs.", "error")
+        return redirect('/login')
+        
     if request.method == 'POST':
-        # Get form data
-        title = request.form['title']
-        company = request.form['company']
-        department = request.form['department']
-        job_type = request.form['job_type']
-        experience = request.form['experience']
-        salary = request.form['salary']
-        location = request.form['location']
-        description = request.form['description']
-        skills = request.form['skills']
+        title = request.form.get('title')
+        company = request.form.get('company')
+        department = request.form.get('department')
+        job_type = request.form.get('job_type')
+        experience = request.form.get('experience')
+        salary = request.form.get('salary')
+        location = request.form.get('location')
+        description = request.form.get('description')
+        skills = request.form.get('skills')
 
+        db = None
+        cursor = None
+        
         try:
-            db = mysql.connector.connect(
-                host='db.pxxl.pro',
-                user='user_deb2e6c5',
-                password='8ca5809f66c97bceb7967901c84296e5',
-                database='db_d728de84'
-            )
+            db = mysql.connector.connect(**db_config)
             cursor = db.cursor()
 
             query = """
-                INSERT INTO jobs (company, title, department, job_type, experience, salary, location, description, skills)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                INSERT INTO jobs (employer_id, company, title, department, job_type, experience, salary, location, description, skills)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(query, (company, title, department, job_type, experience, salary, location, description, skills))
+            cursor.execute(query, (
+                session['employer_id'], company, title, department, job_type, 
+                experience, salary, location, description, skills
+            ))
             db.commit()
-
-            flash("✅ Job posted successfully!", "success")
+            flash("Job posted successfully!", "success")
 
         except mysql.connector.Error as err:
-            print("❌ Error posting job:", err)
-            flash("❌ Failed to post job. Please try again.", "error")
+            print(f"Error posting job: {err}")
+            flash("Failed to post job. Please try again.", "error")
 
         finally:
-            if 'cursor' in locals():
+            if cursor:
                 cursor.close()
-            if 'db' in locals():
+            if db:
                 db.close()
 
-    # Fetch job listings to show below the form
+    # Fetch jobs to display
+    jobs = []
+    db = None
+    cursor = None
+    
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
-
-        cursor.execute("SELECT * FROM jobs ORDER BY created_at DESC")
-        jobs = cursor.fetchall()
+        cursor.execute("SELECT * FROM jobs WHERE employer_id = %s ORDER BY created_at DESC", (session['employer_id'],))
+        jobs = cursor.fetchall() or []
 
     except mysql.connector.Error as err:
-        print("❌ Failed to fetch jobs:", err)
-        jobs = []
+        print(f"Failed to fetch jobs: {err}")
 
     finally:
-        if 'cursor' in locals():
+        if cursor:
             cursor.close()
-        if 'db' in locals():
+        if db:
             db.close()
 
     return render_template("employer/post_job.html", jobs=jobs)
-
 
 # ---------------
 # EDIT JOBS
@@ -365,12 +391,7 @@ def edit_job(job_id):
     skills = request.form['skills']
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         query = """
@@ -403,12 +424,7 @@ def edit_job(job_id):
 @app.route('/employer/delete-job/<int:job_id>', methods=['POST'])
 def delete_job(job_id):
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         cursor.execute("SELECT * FROM jobs WHERE id = %s", (job_id,))
@@ -503,12 +519,7 @@ def update_interview_scheduled_status():
 @app.route('/employer/view_applicants')
 def employer_view_applicants():
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("""
@@ -539,12 +550,7 @@ def employer_view_applicants():
 @app.route('/employer/view_applicants/<int:job_id>')
 def view_applicants(job_id):
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("""
@@ -584,12 +590,7 @@ def invite_applicant(application_id, job_seeker_id, job_id):
         interview_time = request.form.get("interview_time")
         meeting_link = request.form.get("meeting_link")
 
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         # 1. Update application status
@@ -623,12 +624,7 @@ def invite_applicant(application_id, job_seeker_id, job_id):
 @app.route('/employer/reject/<int:applicant_id>', methods=['POST'])
 def reject_applicant(applicant_id):
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         # Update the application status to "rejected"
@@ -655,12 +651,7 @@ def employer_approved_applications():
         return redirect(url_for('employer_login'))
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         # Fetch only approved applications for this employer's jobs
@@ -776,12 +767,7 @@ def reschedule_interview(application_id):
     new_date = request.form['new_date']
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         # update applied_at for that application
@@ -808,7 +794,7 @@ def reschedule_interview(application_id):
 
 @app.route('/employer/cancel/<int:application_id>', methods=['POST'])
 def cancel_interview(application_id):
-    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
+    db = mysql.connector.connect(**db_config)
     cursor = db.cursor()
     cursor.execute("UPDATE applications SET status = 'cancelled' WHERE id = %s", (application_id,))
     db.commit()
@@ -819,7 +805,7 @@ def cancel_interview(application_id):
 
 @app.route('/employer/accept/<int:application_id>', methods=['POST'])
 def accept_candidate(application_id):
-    db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
+    db = mysql.connector.connect(**db_config)
     cursor = db.cursor()
     cursor.execute("UPDATE applications SET status = 'accepted' WHERE id = %s", (application_id,))
     db.commit()
@@ -854,52 +840,56 @@ def update_interview_status():
 # User Routes
 # ----------------------
 
+
 @app.route('/user/')
 def user_index():
     if 'user_id' not in session:
+        flash("Please log in to access the dashboard.", "error")
         return redirect('/login')
 
     user_id = session['user_id']
     
+    # Initialize with defaults
+    saved_count = 0
+    applied_count = 0
+    recommended_jobs = []
+    recommended_count = 0
+    cursor = None
+    db = None
+    
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         # Count saved jobs
         cursor.execute("SELECT COUNT(*) AS count FROM saved_jobs WHERE user_id = %s", (user_id,))
-        saved_count = cursor.fetchone()['count']
+        result = cursor.fetchone()
+        saved_count = result['count'] if result else 0
 
         # Count applied jobs
         cursor.execute("SELECT COUNT(*) AS count FROM applications WHERE user_id = %s", (user_id,))
-        applied_count = cursor.fetchone()['count']
+        result = cursor.fetchone()
+        applied_count = result['count'] if result else 0
 
-
-        # Get recommended jobs from session
+        # Get recommended jobs from session or database
         recommended_jobs = session.get('recommended_jobs', [])
+        
+        if not recommended_jobs:
+            # Get some random jobs as recommendations
+            cursor.execute("SELECT * FROM jobs ORDER BY RAND() LIMIT 3")
+            recommended_jobs = cursor.fetchall() or []
+
         recommended_count = len(recommended_jobs)
 
-        # Get 3 random recommended jobs (for now: all jobs)
-        cursor.execute("""
-            SELECT j.*, e.name 
-            FROM jobs j
-            JOIN employers e ON j.employer_id = e.id
-            ORDER BY RAND() LIMIT 3
-        """)
-        recommended_jobs = cursor.fetchall()
-
     except mysql.connector.Error as err:
-        print("❌ DB Error:", err)
-        saved_count = applied_count = 0
-        recommended_jobs = []
+        print(f"DB Error in user dashboard: {err}")
+        flash("Dashboard data may be incomplete due to connection issues.", "warning")
 
     finally:
-        cursor.close()
-        db.close()
+        if cursor:
+            cursor.close()
+        if db:
+            db.close()
 
     return render_template('user/index.html',
                            saved_count=saved_count,
@@ -931,12 +921,7 @@ def user_notifications():
         return redirect(url_for('login'))
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("""
@@ -1011,12 +996,7 @@ def user_profile():
         return redirect(url_for('login'))
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("SELECT id, name, email, phone, preference, location, profile_picture FROM users WHERE id = %s", (session['user_id'],))
@@ -1223,12 +1203,7 @@ def start_job_search():
         return jsonify({'success': False, 'message': 'No valid skills found.'})
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         # Build dynamic WHERE clause for skill matching
@@ -1290,12 +1265,7 @@ def user_saved_jobs():
         return redirect(url_for('login'))
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         query = """
@@ -1331,12 +1301,7 @@ def save_job():
         return jsonify({'success': False, 'message': 'Missing user or job information.'})
 
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         # Check if the job has already been saved
@@ -1381,7 +1346,7 @@ def save_job_direct():
         return redirect(request.referrer or url_for('user_dashboard'))
 
     try:
-        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         # Check if already saved
@@ -1403,48 +1368,118 @@ def save_job_direct():
 
     return redirect(request.referrer or url_for('user_dashboard'))
 
+# @app.route('/user/apply_job', methods=['POST'])
+# def apply_job():
+#     user_id = session.get('user_id')
+#     job_id = request.form.get('job_id')
+
+#     if not user_id or not job_id:
+#         flash("Missing job or user information.", "error")
+#         return redirect(request.referrer or url_for('user_dashboard'))
+
+#     try:
+#         db = mysql.connector.connect(**db_config)
+#         cursor = db.cursor()
+
+#         # Check if already applied
+#         cursor.execute("SELECT 1 FROM applications WHERE user_id = %s AND job_id = %s", (user_id, job_id))
+#         if cursor.fetchone():
+#             flash("You’ve already applied for this job.", "info")
+#         else:
+#             cursor.execute("INSERT INTO applications (user_id, job_id) VALUES (%s, %s)", (user_id, job_id))
+#             db.commit()
+#             flash("Application submitted successfully!", "success")
+
+#     except mysql.connector.Error as err:
+#         print(f"❌ Error applying for job: {err}")
+#         flash("Database error occurred while applying.", "error")
+
+#     finally:
+#         cursor.close()
+#         db.close()
+
+#     return redirect(request.referrer or url_for('user_dashboard'))
 @app.route('/user/apply_job', methods=['POST'])
 def apply_job():
     user_id = session.get('user_id')
     job_id = request.form.get('job_id')
 
+    # Debug logging
+    print(f"🔍 Apply job attempt - User ID: {user_id}, Job ID: {job_id}")
+    print(f"🔍 Session data: {dict(session)}")
+    print(f"🔍 Form data: {dict(request.form)}")
+
     if not user_id or not job_id:
+        print("❌ Missing user_id or job_id")
         flash("Missing job or user information.", "error")
         return redirect(request.referrer or url_for('user_dashboard'))
 
+    db = None
+    cursor = None
+    
     try:
-        db = mysql.connector.connect(host='db.pxxl.pro', user='user_deb2e6c5', password='8ca5809f66c97bceb7967901c84296e5', database='db_d728de84')
+        print(f"🔄 Attempting database connection with config: {db_config}")
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
+        print("✅ Database connection successful")
 
         # Check if already applied
+        print(f"🔍 Checking if user {user_id} already applied for job {job_id}")
         cursor.execute("SELECT 1 FROM applications WHERE user_id = %s AND job_id = %s", (user_id, job_id))
-        if cursor.fetchone():
-            flash("You’ve already applied for this job.", "info")
+        existing_application = cursor.fetchone()
+        
+        if existing_application:
+            print("ℹ️ User already applied for this job")
+            flash("You've already applied for this job.", "info")
         else:
+            print("🔄 Inserting new application")
             cursor.execute("INSERT INTO applications (user_id, job_id) VALUES (%s, %s)", (user_id, job_id))
             db.commit()
+            print("✅ Application submitted successfully")
             flash("Application submitted successfully!", "success")
 
     except mysql.connector.Error as err:
-        print(f"❌ Error applying for job: {err}")
-        flash("Database error occurred while applying.", "error")
+        print(f"❌ Database error: {err}")
+        print(f"❌ Error code: {err.errno}")
+        print(f"❌ SQL State: {err.sqlstate}")
+        flash("Database connection failed. Please try again later.", "error")
+        
+        # If it's a connection error, provide more specific feedback
+        if err.errno == 2003:  # Can't connect to MySQL server
+            print("❌ Specific issue: Cannot connect to MySQL server")
+            flash("Database server is currently unavailable.", "error")
+    
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+        print(f"❌ Error type: {type(e).__name__}")
+        flash("An unexpected error occurred.", "error")
 
     finally:
-        cursor.close()
-        db.close()
+        # Safely close resources
+        if cursor:
+            try:
+                cursor.close()
+                print("✅ Cursor closed")
+            except:
+                print("⚠️ Error closing cursor")
+        
+        if db and db.is_connected():
+            try:
+                db.close()
+                print("✅ Database connection closed")
+            except:
+                print("⚠️ Error closing database connection")
 
-    return redirect(request.referrer or url_for('user_dashboard'))
+    # The 302 redirect is normal behavior
+    redirect_url = request.referrer or url_for('user_dashboard')
+    print(f"🔄 Redirecting to: {redirect_url}")
+    return redirect(redirect_url)
 
 
 @app.route('/job-details/<int:job_id>')
 def job_details(job_id):
     try:
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("SELECT * FROM jobs WHERE id = %s", (job_id,))
@@ -1476,12 +1511,7 @@ def remove_saved_job(job_id):
             flash("You must be logged in.", "error")
             return redirect(url_for('login'))
 
-        db = mysql.connector.connect(
-            host='db.pxxl.pro',
-            user='user_deb2e6c5',
-            password='8ca5809f66c97bceb7967901c84296e5',
-            database='db_d728de84'
-        )
+        db = mysql.connector.connect(**db_config)
         cursor = db.cursor()
 
         cursor.execute("DELETE FROM saved_jobs WHERE user_id = %s AND job_id = %s", (user_id, job_id))
