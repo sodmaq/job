@@ -15,10 +15,11 @@ app = Flask(__name__)
 app.secret_key = 'supersecret123'
 
 db_config = {
-    'user': 'root',
-    'password': '',
-    'host': 'localhost',
-    'database': 'job_portal'
+    'user': 'user_deb2e6c5',
+    'password': '8ca5809f66c97bceb7967901c84296e5',
+    'host': 'db.pxxl.pro',
+    'port': 14871,
+    'database': 'db_d728de84'
 }
 
 # Global DB connection
